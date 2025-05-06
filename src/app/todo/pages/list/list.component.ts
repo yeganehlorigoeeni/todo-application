@@ -16,5 +16,9 @@ export class ListComponent {
 
   ]
   
+  deleteNote(id: number) {
+    var index = this.noteslist.findIndex(x => x.id === id)
+    this.noteslist.splice(index, 1);
+  }
 
 }
