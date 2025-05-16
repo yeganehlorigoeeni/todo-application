@@ -1,6 +1,7 @@
 import { NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NoteModel } from '../../../_models/note.model';
+import { NoteService } from '../../../_services/note.service';
 
 @Component({
   selector: 'app-list',
@@ -9,16 +10,13 @@ import { NoteModel } from '../../../_models/note.model';
   styleUrl: './list.component.css'
 })
 export class ListComponent {
-  noteslist:NoteModel[] = [
-    new NoteModel(1, 'Test Note', 'Test Description Note', new Date()),
-    new NoteModel(2, 'Test Note2', 'Test Description Note', new Date()),
-    new NoteModel(3, 'Test Note3', 'Test Description Note', new Date()),
+  noteslist:NoteModel[] = []
+  constructor(private noteServise:NoteService){
+    this.noteslist=noteServise.notesList
+  }
+  deleteNote(id:number){
+    this.noteServise.deleteNote(id)
 
-  ]
-  
-  deleteNote(id: number) {
-    var index = this.noteslist.findIndex(x => x.id === id)
-    this.noteslist.splice(index, 1);
   }
 
 }
