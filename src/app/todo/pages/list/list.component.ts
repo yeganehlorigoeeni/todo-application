@@ -2,6 +2,9 @@ import { NgForOf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NoteModel } from '../../../_models/note.model';
 import { NoteService } from '../../../_services/note.service';
+import { dataforlist, todoforlistmodel } from '../../../_models/todo.model';
+import { NotesService } from '../../../_services/notes.service';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -10,13 +13,22 @@ import { NoteService } from '../../../_services/note.service';
   styleUrl: './list.component.css'
 })
 export class ListComponent {
-  noteslist:NoteModel[] = []
-  constructor(private noteServise:NoteService){
-    this.noteslist=noteServise.notesList
-  }
-  deleteNote(id:number){
-    this.noteServise.deleteNote(id)
+  
 
+  todos:todoforlistmodel[]=[];
+
+  constructor(private notesServise:NotesService){
+    this.notesServise.getNotes().subscribe(x =>{this.todos= x});
   }
+
+
+  dates:dataforlist[]=[
+    new dataforlist(new Date())
+  ];
+
+
+deleteNote(id:number){
+  this.notesServise.deleteNote(id)
+}
 
 }
