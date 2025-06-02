@@ -11,19 +11,23 @@ export class NotesService {
   constructor(private http:HttpClient) { }
 
   getNotes(): Observable<todoforlistmodel[]> {
-    return this.http.get<todoforlistmodel[]>('https://todoapi.farinkavoshan.ir/api/Todo/List')
+    return this.http.get<todoforlistmodel[]>('http://localhost:3000/notes/list')
   }
 
   addNote(newNote :todoforsavemodel):Observable<todoforlistmodel>{
 
-    return this.http.post<todoforlistmodel>('https://todoapi.farinkavoshan.ir/api/Todo/Add', newNote)
+    return this.http.post<todoforlistmodel>('http://localhost:3000/notes', newNote)
   }
   todos:todoforlistmodel[]=[];
 
-deleteNote(id:number){
-  var index= this.todos.findIndex(x=> x.id===id)
-  this.todos.splice(index,1);
-}
+  deleteNote(id: number) {
+    return this.http.delete(`http://localhost:3000/notes/delete/${id}`);
+  }
+
+
+  updateNote( id: number, updatedNote: todoforsavemodel): Observable<todoforlistmodel> {
+    return this.http.put<todoforlistmodel>(`http://localhost:3000/notes/update/${id}`, updatedNote);
+  }
   
 }
 
